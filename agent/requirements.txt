@@ -1,0 +1,13 @@
+# Core dependencies
+requests>=2.31.0
+
+# Windows-specific (optional, install separately on Windows)
+# wmi>=1.5.1
+# pywin32>=306
+
+# For service/daemon functionality
+# Windows: pywin32
+# Linux: python-daemon>=2.3.2
+
+# Optional: For enhanced system info
+psutil>=5.9.0

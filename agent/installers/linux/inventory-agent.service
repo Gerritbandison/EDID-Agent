@@ -1,0 +1,41 @@
+[Unit]
+Description=Device Inventory Agent
+Documentation=https://github.com/your-org/inventory-agent
+After=network.target network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+
+# Working directory
+WorkingDirectory=/opt/inventory-agent
+
+# Main process
+ExecStart=/usr/bin/python3 /opt/inventory-agent/agent.py
+ExecReload=/bin/kill -HUP $MAINPID
+
+# Restart settings
+Restart=always
+RestartSec=30
+StartLimitBurst=5
+StartLimitIntervalSec=300
+
+# Environment
+Environment="INVENTORY_API_URL=http://localhost:5000"
+EnvironmentFile=-/etc/inventory-agent/environment
+
+# Security settings
+NoNewPrivileges=false
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/log/inventory-agent /etc/inventory-agent
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=inventory-agent
+
+[Install]
+WantedBy=multi-user.target

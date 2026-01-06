@@ -1,0 +1,9 @@
+{
+  "api_url": "https://inventory.example.com",
+  "api_key": "your-api-key-here",
+  "check_in_interval": 1800,
+  "max_retries": 3,
+  "retry_delay": 5,
+  "request_timeout": 30,
+  "log_level": "INFO"
+}
