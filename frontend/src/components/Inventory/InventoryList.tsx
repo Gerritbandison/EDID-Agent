@@ -1,11 +1,10 @@
-import { useState } from 'react'
+import { useState, Fragment } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { formatDistanceToNow } from 'date-fns'
 import {
   Search,
   Download,
-  Filter,
   ChevronDown,
   ChevronUp,
   Monitor,
@@ -170,9 +169,8 @@ export default function InventoryList() {
               </thead>
               <tbody>
                 {data?.inventory.map((device) => (
-                  <>
+                  <Fragment key={device.id}>
                     <tr
-                      key={device.id}
                       className="cursor-pointer"
                       onClick={() => toggleRow(device.id)}
                     >
@@ -238,13 +236,13 @@ export default function InventoryList() {
                       </td>
                     </tr>
                     {expandedRows.has(device.id) && (
-                      <tr key={`${device.id}-expanded`}>
+                      <tr>
                         <td colSpan={7} className="bg-gray-50 dark:bg-gray-800/50 p-4">
                           <DeviceExpandedRow device={device} />
                         </td>
                       </tr>
                     )}
-                  </>
+                  </Fragment>
                 ))}
               </tbody>
             </table>

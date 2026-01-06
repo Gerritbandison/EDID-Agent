@@ -7,7 +7,6 @@ and reports to the inventory management server.
 import os
 import sys
 import time
-import json
 import logging
 import signal
 import threading
@@ -16,24 +15,30 @@ from datetime import datetime
 
 import requests
 
-# Add parent directory to path for imports
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+from .collectors import get_collector
+from .config import Config
 
-from agent.src.collectors import get_collector
-from agent.src.config import Config
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.StreamHandler(),
-        logging.FileHandler(
-            os.path.join(os.path.dirname(__file__), '..', 'logs', 'agent.log'),
-            mode='a'
-        )
-    ]
-)
+def setup_logging():
+    """Configure logging with file handler."""
+    log_dir = os.path.join(os.path.dirname(__file__), '..', 'logs')
+    os.makedirs(log_dir, exist_ok=True)
+    log_file = os.path.join(log_dir, 'agent.log')
+
+    handlers = [logging.StreamHandler()]
+    try:
+        handlers.append(logging.FileHandler(log_file, mode='a'))
+    except (OSError, IOError):
+        pass  # Skip file handler if we can't write
+
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        handlers=handlers
+    )
+
+
+setup_logging()
 logger = logging.getLogger('inventory-agent')
 
 

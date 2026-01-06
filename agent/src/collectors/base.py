@@ -7,8 +7,8 @@ import logging
 from abc import ABC, abstractmethod
 from typing import Dict, List, Any, Optional
 
-from agent.src.utils.helpers import generate_device_id, generate_monitor_id
-from agent.src.utils.edid_parser import EDIDParser
+from ..utils.helpers import generate_device_id, generate_monitor_id
+from ..utils.edid_parser import EDIDParser
 
 logger = logging.getLogger(__name__)
 
