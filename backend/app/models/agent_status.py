@@ -49,6 +49,16 @@ class AgentStatus(db.Model):
 
     def record_check_in(self, success=True, error=None):
         """Record a check-in attempt."""
+        # Initialize counters if None (new record not yet committed)
+        if self.total_check_ins is None:
+            self.total_check_ins = 0
+        if self.successful_check_ins is None:
+            self.successful_check_ins = 0
+        if self.failed_check_ins is None:
+            self.failed_check_ins = 0
+        if self.consecutive_failures is None:
+            self.consecutive_failures = 0
+
         self.total_check_ins += 1
         if success:
             self.successful_check_ins += 1
